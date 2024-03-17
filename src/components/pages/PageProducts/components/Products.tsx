@@ -7,9 +7,14 @@ import Typography from "@mui/material/Typography";
 import { formatAsPrice } from "~/utils/utils";
 import AddProductToCart from "~/components/AddProductToCart/AddProductToCart";
 import { useAvailableProducts } from "~/queries/products";
+import { useEffect } from "react";
 
 export default function Products() {
   const { data = [], isLoading } = useAvailableProducts();
+
+  if (data.length === 0) {
+    return <div>Products are currently unavailable</div>;
+  }
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
