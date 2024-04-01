@@ -4,7 +4,7 @@ import { AvailableProduct } from "~/models/Product";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import React from "react";
 
-const API_URL = "https://wlwoqk18ye.execute-api.eu-west-1.amazonaws.com/";
+const API_URL = "https://akr36rafb5.execute-api.eu-west-1.amazonaws.com/dev";
 
 export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
@@ -49,7 +49,7 @@ export function useRemoveProductCache() {
 
 export function useUpsertAvailableProduct() {
   return useMutation((values: AvailableProduct) =>
-    axios.put<AvailableProduct>(`${API_PATHS.bff}/product`, values, {
+    axios.put<AvailableProduct>(`${API_URL}/product`, values, {
       headers: {
         Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
       },
