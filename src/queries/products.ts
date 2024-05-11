@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import API_PATHS from "~/constants/apiPaths";
+import API_PATHS, { API_PATHS_DB } from "~/constants/apiPaths";
 import { AvailableProduct } from "~/models/Product";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import React from "react";
@@ -11,6 +11,9 @@ export function useAvailableProducts() {
     "available-products",
     async () => {
       const res = await axios.get<AvailableProduct[]>(`${API_URL}/products`);
+      // const res = await axios.get<AvailableProduct[]>(
+      //   `${API_PATHS_DB.product}/products`
+      // );
       console.log("products:", res);
       return res.data;
     }
@@ -32,6 +35,9 @@ export function useAvailableProduct(id?: string) {
       const res = await axios.get<AvailableProduct>(
         `${API_URL}/products/${id}`
       );
+      // const res = await axios.get<AvailableProduct>(
+      //   `${API_PATHS_DB}/products/${id}`
+      // );
       return res.data;
     },
     { enabled: !!id }
@@ -48,21 +54,33 @@ export function useRemoveProductCache() {
 }
 
 export function useUpsertAvailableProduct() {
-  return useMutation((values: AvailableProduct) =>
-    axios.put<AvailableProduct>(`${API_URL}/product`, values, {
-      headers: {
-        Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
-      },
-    })
+  return useMutation(
+    (values: AvailableProduct) =>
+      axios.put<AvailableProduct>(`${API_URL}/product`, values, {
+        headers: {
+          Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
+        },
+      })
+    // axios.put<AvailableProduct>(`${API_PATHS_DB}/product`, values, {
+    //   headers: {
+    //     Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
+    //   },
+    // })
   );
 }
 
 export function useDeleteAvailableProduct() {
-  return useMutation((id: string) =>
-    axios.delete(`${API_URL}/products/${id}`, {
-      headers: {
-        Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
-      },
-    })
+  return useMutation(
+    (id: string) =>
+      axios.delete(`${API_URL}/products/${id}`, {
+        headers: {
+          Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
+        },
+      })
+    // axios.delete(`${API_PATHS_DB}/products/${id}`, {
+    //   headers: {
+    //     Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
+    //   },
+    // })
   );
 }
